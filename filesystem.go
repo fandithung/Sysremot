@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cloudfoundry/gosigar"
+	sigar "github.com/elastic/gosigar"
 )
 
 func formatSize(size uint64) uint64 {
