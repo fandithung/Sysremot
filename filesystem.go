@@ -7,10 +7,6 @@ import (
 	sigar "github.com/elastic/gosigar"
 )
 
-func formatSize(size uint64) uint64 {
-	return size * 1024
-}
-
 func filesystemJob(roundedTime time.Time) {
 	conn := pool.Get()
 	defer conn.Close()
@@ -36,7 +32,7 @@ func filesystemJob(roundedTime time.Time) {
 		}
 
 		data := fmt.Sprintf(`{"total":"%d","used":"%d","free":"%d","in-percent":"%d"}`,
-			formatSize(usage.Total), formatSize(usage.Used), formatSize(usage.Avail), usePercent(formatSize(usage.Total), formatSize(usage.Avail)))
+			usage.Total, usage.Used, usage.Avail, usePercent(usage.Total, usage.Avail))
 
 		currentKey := fmt.Sprintf("%s|fs:%s|current", AppName, dirname)
 		historyKey := fmt.Sprintf("%s|fs:%s|%s|%s", AppName, dirname, roundedTime.Format("2006-01-02"), roundedTime.Format("15:04:05"))
